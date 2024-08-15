@@ -2,6 +2,19 @@ spring:
   application:
     name:
       review
+  datasource:
+    username: postgres
+    password: postgres@123
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://68.183.187.158:5432/postgres_db
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
 springdoc:
   swagger-ui:
