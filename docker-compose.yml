@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  istad_lms_api:
+    container_name: 'api-review'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - TZ=Asia/Bangkok
+    ports:
+      - '8080:8080'
+    volumes:
+      - '/home/review-api/images:/home/review-api/media'

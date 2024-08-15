@@ -1,7 +1,4 @@
 spring:
-  application:
-    name:
-      review
   datasource:
     username: postgres
     password: postgres@123
@@ -15,8 +12,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  profiles:
-    active: dev
 
 springdoc:
   swagger-ui:

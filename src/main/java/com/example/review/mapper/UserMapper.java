@@ -17,7 +17,7 @@ public interface UserMapper {
     UserResponse toResponse(User user);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateStudyProgramTopicFromRequest(@MappingTarget User user, UserUpdateRequest userUpdateRequest);
+    void updateUserFromRequest(@MappingTarget User user, UserUpdateRequest userUpdateRequest);
 
 
 }

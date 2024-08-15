@@ -1,8 +1,13 @@
 package com.example.review.feature.user;
 
 import com.example.review.feature.user.dto.UserRequest;
+import com.example.review.feature.user.dto.UserResponse;
+import com.example.review.feature.user.dto.UserUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -12,15 +17,36 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("")
-    //[POST] /api/v1/users
-    void createUser(@RequestBody UserRequest userRequest){
+    void createUser(@RequestBody UserRequest userRequest) {
         userService.createUser(userRequest);
     }
 
     @GetMapping("")
-        //[GET] /api/v1/users
-    void getUser(@RequestBody UserRequest userRequest){
+    Page<UserResponse> getUser(
 
+            @RequestParam int pageSize,
+            @RequestParam int pageNumber
+    ) {
+
+        return userService.getAllUsers(pageNumber, pageSize);
+    }
+
+    @GetMapping("/{email}")
+    UserResponse getUserByEmail(@PathVariable String email) {
+
+        return userService.getUserByEmail(email);
+    }
+
+    @DeleteMapping("/{email}")
+    void deleteUser(@PathVariable String email) {
+
+        userService.deleteByEmail(email);
+    }
+
+    @PatchMapping("/{email}")
+    UserResponse updateUserByEmail(@PathVariable String email, @RequestBody UserUpdateRequest userUpdateRequest) {
+
+        return userService.updateByEmail(email, userUpdateRequest);
     }
 
 }
