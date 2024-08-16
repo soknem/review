@@ -43,6 +43,7 @@ public class UserController {
         userService.deleteByEmail(email);
     }
 
+
     @PatchMapping("/{email}")
     UserResponse updateUserByEmail(@PathVariable String email, @RequestBody UserUpdateRequest userUpdateRequest) {
 
