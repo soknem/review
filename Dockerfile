@@ -4,7 +4,7 @@ COPY . .
 RUN gradle clean build
 
 FROM ghcr.io/graalvm/jdk-community:17 AS builder
-WORKDIR /extracted
+WORKDIR /extractedg
 COPY --from=setup /project/build/libs/*.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
