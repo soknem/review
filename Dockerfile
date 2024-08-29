@@ -1,14 +1,20 @@
-# Builder stage
-FROM gradle:8.4-jdk17-alpine AS builder
-WORKDIR /app
+FROM gradle:8.8-jdk21-alpine AS setup
+WORKDIR /project
 COPY . .
-RUN gradle build --no-daemon -x test
+RUN gradle clean build
 
-# Final stage
-FROM openjdk:17-alpine
-WORKDIR /app
-COPY --from=builder /app/build/libs/*.jar app.jar
+FROM ghcr.io/graalvm/jdk-community:17 AS builder
+WORKDIR /extracted
+COPY --from=setup /project/build/libs/*.jar app.jar
+RUN java -Djarmode=layertools -jar app.jar extract
+
+FROM ghcr.io/graalvm/jdk-community:17
+WORKDIR /application
+COPY --from=builder /extracted/dependencies/ ./
+COPY --from=builder /extracted/spring-boot-loader/ ./
+COPY --from=builder /extracted/snapshot-dependencies/ ./
+COPY --from=builder /extracted/application/ ./
+
 EXPOSE 8080
-VOLUME /home/istad/media
-VOLUME /keys
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=dev", "app.jar"]
+
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
