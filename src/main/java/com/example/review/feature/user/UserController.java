@@ -5,6 +5,7 @@ import com.example.review.feature.user.dto.UserResponse;
 import com.example.review.feature.user.dto.UserUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
     void createUser(@RequestBody UserRequest userRequest) {
         userService.createUser(userRequest);
     }
